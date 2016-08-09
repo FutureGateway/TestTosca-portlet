@@ -81,7 +81,10 @@
              */
             function cleanJob(job_id) {                 
                 $.ajax({                     
-                    type: "DELETE", 
+                    type: "DELETE",
+                    headers: {
+                        'Authorization':'Bearer ' + token
+                    },
                     url: webapp_settings.apiserver_proto+'://'
                         +webapp_settings.apiserver_host +':'
                         +webapp_settings.apiserver_port
@@ -166,12 +169,14 @@
                 $('#jobsDiv').attr('data-modify', 'false');
                 $.ajax({
                     type: "GET", 
+                    headers: {
+                        'Authorization':'Bearer ' + token
+                    },
                     url:  webapp_settings.apiserver_proto+'://'
                          +webapp_settings.apiserver_host +':'
                          +webapp_settings.apiserver_port 
                          +webapp_settings.apiserver_path +'/'
-                         +webapp_settings.apiserver_ver  +'/tasks?user='
-                         +webapp_settings.username       +'&application='
+                         +webapp_settings.apiserver_ver  +'/tasks?application='
                          +webapp_settings.app_id, 
                     dataType: "json",                    
                     success: function(data) {
@@ -213,43 +218,48 @@
                          +webapp_settings.apiserver_host +':'
                          +webapp_settings.apiserver_port 
                          +webapp_settings.apiserver_path +'/'
-                         +webapp_settings.apiserver_ver +'/tasks?user='
-                         +webapp_settings.username,                            
-                    type: "POST", 
+                         +webapp_settings.apiserver_ver +'/tasks',
+                    type: "POST",
+                    headers: {
+                        'Authorization':'Bearer ' + token
+                    },
                     cache: false,
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(job_desc),                          
                     success: function(data) {
-                            // 2nd call finalize and start submission                                                        
-                            $.ajax({
-                                url: webapp_settings.apiserver_proto+'://'
-                                    +webapp_settings.apiserver_host +':'
-                                    +webapp_settings.apiserver_port 
-                                    +webapp_settings.apiserver_path +'/'
-                                    +webapp_settings.apiserver_ver +'/tasks/'+data.id+'/input?user='
-                                    +webapp_settings.username,                                              
-                                type: "POST", 
-                                cache: false,
-                                dataType: "json",
-                                contentType: "application/json; charset=utf-8",
-                                data: JSON.stringify({}),
-                                success: function(data) {
-                                       $('#jobTable').remove();
-                                       prepareJobTable();
-                                    }, 
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                        $('#modal-content').html(job_failed);
-                                        alert(jqXHR.status);
-                                    }
-                            });
-                        }, 
+                        // 2nd call finalize and start submission                                                        
+                        $.ajax({
+                            url: webapp_settings.apiserver_proto+'://'
+                                +webapp_settings.apiserver_host +':'
+                                +webapp_settings.apiserver_port 
+                                +webapp_settings.apiserver_path +'/'
+                                +webapp_settings.apiserver_ver +'/tasks/'+data.id+'/input',
+                            type: "POST", 
+                            headers: {
+                                'Authorization':'Bearer ' + token
+                            },
+                            cache: false,
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({}),
+                            success: function(data) {
+                                   $('#jobTable').remove();
+                                   prepareJobTable();
+                                }, 
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                    $('#modal-content').html(job_failed);
+                                    alert(jqXHR.status);
+                                }
+                        });
+                    }, 
                     error: function(jqXHR, textStatus, errorThrown) {
                             $('#modal-content').html(job_failed);
                             alert(jqXHR.status);
                         }                   
                 });                                
-            }            
+            }
+
             /*
              * Function that checks for job status change
              */
@@ -267,9 +277,11 @@
                                         +webapp_settings.apiserver_host +':'
                                         +webapp_settings.apiserver_port 
                                         +webapp_settings.apiserver_path +'/'
-                                        +webapp_settings.apiserver_ver +'/tasks/'+row.id+'?user='
-                                        +webapp_settings.username,                                                            
+                                        +webapp_settings.apiserver_ver +'/tasks/'+row.id,                                                            
                                     type: "GET", 
+                                    headers: {
+                                        'Authorization':'Bearer ' + token
+                                    },
                                     cache: false,                                
                                     contentType: "application/json; charset=utf-8",                                
                                     success: function(data) {

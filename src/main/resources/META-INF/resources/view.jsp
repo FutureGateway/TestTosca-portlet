@@ -1,23 +1,16 @@
 <%@ include file="/init.jsp" %>
 
         <script type="text/javascript">
-                Liferay.Service(
-        		  '/iam.token/get-token',
-        		  function(obj) {
-        		    token = obj;
-        		  }
-        		);
             /*
              * All the web app needs to configure are the following
              */
             var webapp_settings = {
                 apiserver_proto: 'http'
-               ,apiserver_host : 'localhost'
+               ,apiserver_host : '192.92.149.135'
                ,apiserver_port : '8888'
                ,apiserver_path : ''
                ,apiserver_ver  : 'v1.0'
-               ,username       : 'brunor'
-               ,app_id         : 1               
+               ,app_id         : 102               
             };
             /* Settings for sgw.indigo-datacloud.eu
             var webapp_settings = {
@@ -54,9 +47,16 @@
                     $job_id = $('#job_id').attr('data-value');
                     cleanJob($job_id);              
                 });
-                prepareJobTable();                 // Fills the job table
                 setTimeout(checkJobs, TimerDelay); // Initialize the job check loop
             });     
+            Liferay.Service(
+            		  '/iam.token/get-token',
+            		  function(obj) {
+            		    token = obj;
+                        prepareJobTable();                 // Fills the job table
+
+            		  }
+            		);
         </script>
         <div class="panel panel-default">
         <div class="panel-heading"><h3>Tester web application </h3></div>
@@ -85,9 +85,9 @@
               </div>
               <div class="modal-body">
                 <p>Welcome to the 1st web application testing the new FutureGateway APIs.</p>
-                <p>This application just execute over SSH a simple hostname command.</p>
-                <p>Please press <b>'submit'</b> button to execute the 'Hello' application.</p>
-                <p>Press cancel to return to the Hello' home/summary page.</p>
+                <p>This application just execute a simple TOSCA request.</p>
+                <p>Please press <b>'submit'</b> button to submit the request.</p>
+                <p>Press cancel to return to the home/summary page.</p>
                 <p><b>Specify your job identifier: </b>
                 <input type="text" id="jobDescription" size="60"/>
                 </p>
