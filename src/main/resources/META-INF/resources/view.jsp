@@ -5,10 +5,8 @@
              * All the web app needs to configure are the following
              */
             var webapp_settings = {
-                apiserver_proto: 'http'
-               ,apiserver_host : '192.92.149.135'
-               ,apiserver_port : '8888'
-               ,apiserver_path : ''
+                apiserver_url: ''
+               ,apiserver_path : '/apis'
                ,apiserver_ver  : 'v1.0'
                ,app_id         : 102               
             };

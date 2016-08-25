@@ -27,9 +27,7 @@
                         OutFiles+=
                             '<div class="row">'
                            +'  <div class="col-sm-3">'
-                           +'  <a href="'+webapp_settings.apiserver_proto+'://'
-                                         +webapp_settings.apiserver_host +':'
-                                         +webapp_settings.apiserver_port 
+                           +'  <a href="'+webapp_settings.apiserver_url
                                          +webapp_settings.apiserver_path +'/'
                                          +webapp_settings.apiserver_ver  +'/'                                   
                                          +out_files[j].url+'">'
@@ -85,9 +83,7 @@
                     headers: {
                         'Authorization':'Bearer ' + token
                     },
-                    url: webapp_settings.apiserver_proto+'://'
-                        +webapp_settings.apiserver_host +':'
-                        +webapp_settings.apiserver_port
+                    url: webapp_settings.apiserver_url
                         +webapp_settings.apiserver_path +'/'
                         +webapp_settings.apiserver_ver  +'/tasks/'+job_id, 
                     dataType: "json",                    
@@ -172,9 +168,7 @@
                     headers: {
                         'Authorization':'Bearer ' + token
                     },
-                    url:  webapp_settings.apiserver_proto+'://'
-                         +webapp_settings.apiserver_host +':'
-                         +webapp_settings.apiserver_port 
+                    url:  webapp_settings.apiserver_url
                          +webapp_settings.apiserver_path +'/'
                          +webapp_settings.apiserver_ver  +'/tasks?application='
                          +webapp_settings.app_id, 
@@ -214,9 +208,7 @@
                 $('#modal-content').html('');
                 // 1st call to register job                
                 $.ajax({
-                    url:  webapp_settings.apiserver_proto+'://'
-                         +webapp_settings.apiserver_host +':'
-                         +webapp_settings.apiserver_port 
+                    url:  webapp_settings.apiserver_url
                          +webapp_settings.apiserver_path +'/'
                          +webapp_settings.apiserver_ver +'/tasks',
                     type: "POST",
@@ -230,9 +222,7 @@
                     success: function(data) {
                         // 2nd call finalize and start submission                                                        
                         $.ajax({
-                            url: webapp_settings.apiserver_proto+'://'
-                                +webapp_settings.apiserver_host +':'
-                                +webapp_settings.apiserver_port 
+                            url: webapp_settings.apiserver_url
                                 +webapp_settings.apiserver_path +'/'
                                 +webapp_settings.apiserver_ver +'/tasks/'+data.id+'/input',
                             type: "POST", 
@@ -273,9 +263,7 @@
                           &&  jstatus != 'FAILED'
                           &&  jstatus != 'ABORT')                                                  
                             $.ajax({
-                                    url: webapp_settings.apiserver_proto+'://'
-                                        +webapp_settings.apiserver_host +':'
-                                        +webapp_settings.apiserver_port 
+                                    url: webapp_settings.apiserver_url
                                         +webapp_settings.apiserver_path +'/'
                                         +webapp_settings.apiserver_ver +'/tasks/'+row.id,                                                            
                                     type: "GET", 
